@@ -1,21 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'Cross-Origin-Opener-Policy', value: 'same-origin' },
-          { key: 'Cross-Origin-Embedder-Policy', value: 'credentialless' },
-        ],
-      },
-    ];
-  },
+  output: 'export',
+  images: { unoptimized: true },
+  trailingSlash: true,
+  // Headers not needed for static export (handled by Capacitor)
 };
 
 module.exports = nextConfig;

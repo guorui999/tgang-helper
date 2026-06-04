@@ -40,3 +40,18 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Capacitor / Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/captured_inputs/
+android/cxx/
+
+# Capacitor / iOS
+ios/App/Pods/
+ios/build/
+
+# .firecrawl
+.firecrawl/

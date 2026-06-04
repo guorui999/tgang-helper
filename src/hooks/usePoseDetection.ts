@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import type { PostureIssue } from '@/types';
 import { analyzePosture, formatPostureForAI } from '@/lib/posture-analysis';
+import { getPostureCorrection } from '@/lib/deepseek-client';
 
 type PoseStatus = 'loading' | 'ready' | 'error' | 'unavailable';
 
@@ -144,25 +145,15 @@ export function usePoseDetection(): UsePoseDetectionReturn {
           if (analysis.issues.length > 0) {
             setCurrentIssues(analysis.issues);
 
-            // Call DeepSeek if issues persist > 5s
+            // Call DeepSeek directly from browser if issues persist > 5s
             if (Date.now() - lastAICallRef.current > 5000) {
               lastAICallRef.current = Date.now();
               setIsProcessing(true);
               const postureText = formatPostureForAI(normalized, analysis.issues);
+              const apiKey = localStorage.getItem('tgang-api-key') || '';
 
-              const apiKey = typeof window !== 'undefined' ? localStorage.getItem('tgang-api-key') || undefined : undefined;
-
-              fetch('/api/posture-correction', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  issues: analysis.issues,
-                  landmarkSummary: postureText,
-                  apiKey,
-                }),
-              })
-                .then(res => res.json())
-                .then((data: CorrectionResult) => setCorrection(data))
+              getPostureCorrection(postureText, apiKey)
+                .then(data => { if (data) setCorrection(data); })
                 .catch(console.error)
                 .finally(() => setIsProcessing(false));
             }
