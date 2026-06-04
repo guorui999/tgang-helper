@@ -1,0 +1,7 @@
+# Force LF for shell scripts (needed on Linux runners)
+*.sh text eol=lf
+gradlew text eol=lf
+gradlew.bat text eol=crlf
+
+# Auto-detect for everything else
+* text=auto
