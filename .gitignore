@@ -55,3 +55,4 @@ ios/build/
 
 # .firecrawl
 .firecrawl/
+*.zip
