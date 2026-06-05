@@ -143,7 +143,7 @@ interface TrainingRecord {
 ## DeepSeek API 集成
 
 - **Endpoint**: `https://api.deepseek.com/v1/chat/completions`
-- **Model**: `deepseek-v4-pro`
+- **Model**: `deepseek-v4-flash`
 - **通过 API Route 代理**: `src/app/api/posture-correction/route.ts`
 - **只发送姿势数据（非图像）**: 关键点坐标 + 偏差类型
 

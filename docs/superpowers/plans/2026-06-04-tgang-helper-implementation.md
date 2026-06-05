@@ -86,14 +86,14 @@ Write `C:\Users\huang\Desktop\sport\.env.example`:
 ```
 DEEPSEEK_API_KEY=your_deepseek_api_key_here
 DEEPSEEK_BASE_URL=https://api.deepseek.com/v1
-DEEPSEEK_MODEL=deepseek-v4-pro
+DEEPSEEK_MODEL=deepseek-v4-flash
 ```
 
 Write `C:\Users\huang\Desktop\sport\.env.local`:
 ```
 DEEPSEEK_API_KEY=sk-4d0f17efa0bb4067aa05c13c90f0ba01
 DEEPSEEK_BASE_URL=https://api.deepseek.com/v1
-DEEPSEEK_MODEL=deepseek-v4-pro
+DEEPSEEK_MODEL=deepseek-v4-flash
 ```
 
 - [ ] **Step 5: 配置 next.config.js 允许 MediaPipe WASM**
@@ -1718,7 +1718,7 @@ export interface CorrectionResult {
 export async function getPostureCorrection(postureData: string): Promise<CorrectionResult | null> {
   try {
     const completion = await client.chat.completions.create({
-      model: process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro',
+      model: process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash',
       messages: [
         {
           role: 'system',

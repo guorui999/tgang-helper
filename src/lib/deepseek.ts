@@ -21,7 +21,7 @@ export async function getPostureCorrection(
 
   try {
     const completion = await client.chat.completions.create({
-      model: process.env.DEEPSEEK_MODEL || 'deepseek-v4-pro',
+      model: process.env.DEEPSEEK_MODEL || 'deepseek-v4-flash',
       messages: [
         {
           role: 'system',

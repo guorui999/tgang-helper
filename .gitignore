@@ -56,3 +56,6 @@ ios/build/
 # .firecrawl
 .firecrawl/
 *.zip
+
+# MCP cache (large index files)
+.mcp-cache/

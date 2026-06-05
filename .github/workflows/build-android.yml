@@ -3,7 +3,11 @@ name: Build Android APK
 on:
   push:
     branches: [master, main]
+    tags: ['v*']
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -43,9 +47,37 @@ jobs:
       - name: Build APK
         run: cd android && ./gradlew assembleDebug
 
-      - name: Upload APK
+      - name: Upload APK (artifact)
         uses: actions/upload-artifact@v4
         with:
           name: tgang-helper-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: tgang-helper ${{ github.ref_name }}
+          body: |
+            ## tgang-helper ${{ github.ref_name }}
+
+            ### 下载
+            - [APK 安装包](app-debug.apk) — Android 手机直接安装
+
+            ### 使用说明
+            1. 安装 APK 后打开
+            2. 进入 ⚙️ 设置 → 配置 DeepSeek API Key
+            3. 选择课程开始训练
+            4. 点 📷 开启姿势检测（纯本地，不上传）
+
+            ### 功能
+            - 分级训练课程（男女/难度区分）
+            - 呼吸圈动画 + 人体姿势 SVG 引导
+            - Web Speech 语音播报（闭眼跟练）
+            - MediaPipe Pose 实时姿势检测
+            - DeepSeek AI 姿势纠正建议
+            - 打卡日历 + 训练统计
+          files: android/app/build/outputs/apk/debug/app-debug.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
